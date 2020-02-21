@@ -1,61 +1,203 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.awt.Point;
 
 public class BFS {
-    public List<Node> toVisit;
-    ArrayList<ArrayList<Node> > visited;
-    int size;
+    public Queue<Node> toVisit;
+    ArrayList<ArrayList<Boolean>> visited;
+    int boardSize;
+    Point tom;
+    int depthOfJerry = 10;
+    Board board;
+    ArrayList<Point> positionOfJerry = new ArrayList<Point>();
 
-     public BFS(){
-         size = 8;
-         toVisit = new ArrayList<Node>();
-         visited = new ArrayList<ArrayList<Node> >(size);
-         for (int i = 0; i < size; i ++){
-             visited.add(new ArrayList<Node>(size));
-         }
-     }
-    public BFS(int size){
-        this.size = size;
-        toVisit = new ArrayList<Node>();
-        visited = new ArrayList<ArrayList<Node> >(size);
-        for (int i = 0; i < size; i ++){
-            visited.add(new ArrayList<Node>(size));
+    public BFS() {
+        boardSize = 8;
+        tom = new Point(0, 0);
+        toVisit = new LinkedList<>();
+        visited = new ArrayList<ArrayList<Boolean>>(boardSize);
+        for (int i = 0; i < boardSize; i++) {
+            ArrayList<Boolean> array = new ArrayList<>(boardSize);
+            for (int j = 0; j < boardSize; j++) {
+                array.add(false);
+            }
+            visited.add(array);
+        }
+        board = new Board();
+        this.getJerryPosition(1,1);
+    }
+
+    public BFS(int size, int tomX, int tomY, int jerX, int jerY) {
+        this.boardSize = size;
+        this.tom = new Point(tomX, tomY);
+
+        toVisit = new LinkedList<>();
+        visited = new ArrayList<ArrayList<Boolean>>(size);
+        for (int i = 0; i < size; i++) {
+            ArrayList<Boolean> array = new ArrayList<>(size);
+            for (int j = 0; j < size; j++) {
+                array.add(false);
+            }
+            visited.add(array);
+        }
+        board = new Board();
+        this.getJerryPosition(jerX,jerY);
+    }
+
+    public boolean isVisited(Node node) {
+        return visited.get(node.x).get(node.y);
+    }
+
+    public boolean termination(Node node) {
+        Point p = positionOfJerry.get(node.depth);
+        return (node.x == p.x && node.y == p.y);
+    }
+
+    public void production(Node node) {
+        List<Point> estimatedPosition = new ArrayList<Point>();
+        estimatedPosition.add(new Point(node.x + 2, node.y + 1));
+        estimatedPosition.add(new Point(node.x - 2, node.y - 1));
+        estimatedPosition.add(new Point(node.x + 1, node.y + 2));
+        estimatedPosition.add(new Point(node.x + 2, node.y - 1));
+        estimatedPosition.add(new Point(node.x - 2, node.y + 1));
+        estimatedPosition.add(new Point(node.x - 1, node.y - 2));
+        estimatedPosition.add(new Point(node.x + 1, node.y - 2));
+        estimatedPosition.add(new Point(node.x - 1, node.y + 2));
+
+        for (Point point : estimatedPosition) {
+            if (point.x >= 0 && point.x < boardSize && point.y >= 0 && point.y < boardSize) {
+                Node child = new Node(node, point.x, point.y, node.depth + 1);
+                node.addChild(child);
+            }
         }
     }
-    public boolean isVisited(Node node){
-             return (visited.get(node.x).get(node.y) != null);
+
+    public boolean setToVisit(Node node) {
+        return visited.get(node.x).set(node.y, true);
     }
-
-    public boolean termination (Node node){
-
-
-            return (positionsOfJerry[depth].x == x && positionsOfJerry[depth].y == y);
+    public void printPath(Stack<Node> path){
+        while (!path.isEmpty()){
+            Node current = path.pop();
+            System.out.println(current);
+            printBoard(current);
         }
     }
-     public void production(Node node){
-         List<Point> estimatedPosition = new ArrayList<Point>();
-         estimatedPosition.add( new Point(node.x + 2, node.y + 1));
-         estimatedPosition.add( new Point(node.x - 2, node.y - 1));
-         estimatedPosition.add( new Point(node.x + 1, node.y + 2));
-         estimatedPosition.add( new Point(node.x + 2, node.y - 1));
-         estimatedPosition.add( new Point(node.x - 2, node.y + 1));
-         estimatedPosition.add( new Point(node.x - 1, node.y - 2));
-         estimatedPosition.add( new Point(node.x + 1, node.y - 2));
-         estimatedPosition.add( new Point(node.x - 1, node.y + 2));
+    public void printBoard(Node current){
 
-         for (Point point : estimatedPosition){
-             if (point.x >= 0 && point.x < size && point.y >= 0 && point.y < size) {
-                 Node child = new Node(node, point.x, point.y, node.depth+1);
-                 node.addChild(child);
-              }
-         }
-     }
+        for (int i = 0 ; i < boardSize; i++){
+            if (i > 9) {
+                System.out.print(i + ":");
+            }else{
+                System.out.print(i + " :");
+            }
+            for (int j = 0; j < boardSize; j ++){
+                if (current.x == j && current.y ==i){
+                    System.out.print("T |");
+                }else if (positionOfJerry.get(current.depth).x == j &&  positionOfJerry.get(current.depth).y == i ){
+                    System.out.print("J |");
+                }else {
+                    System.out.print("__|");
+                }
+            }
+            System.out.print('\n');
+        }
+    }
+
+    public void bfs() {
+        Node root = new Node(null, tom.x, tom.y, 0);
+        Node current = root;
+        toVisit.add(root);
+        while (!toVisit.isEmpty()) {
+            current = toVisit.poll();
+            // System.out.println(toVisit);
+            if (current.depth >= depthOfJerry) { // jerry eats chesse
+                // setToVisit(current);
+            } else {
+                if (termination(current)) {
+                    // if catch!
+                    break;
+                } else {// not catch, expand
+                    // setToVisit(current);
+                    production(current);// set its child
+                    for (Node child : current.children) {// append to its to Visited
+                        if (!isVisited(child)) {
+                            toVisit.add(child);
+                        }
+                    }
+                }
+            }
+
+        }
+        if (termination(current)) {
+            Stack<Node> path = new Stack<Node>();
+            while (current.parent != null) {
+                path.add(current);
+                current = current.parent;
+            }
+            path.add(current);
+            System.out.println("Tom catch Jerry");
+            printPath(path);
+        } else {
+            System.out.println("Jerry won");
+        }
+    }
+
+    public void getJerryPosition(int x, int y) {
+        // d = left , w = up, a = right, s = down
+
+        ArrayList<Character> moveOfJerry = new ArrayList<Character>();
+        moveOfJerry.add('d');
+        moveOfJerry.add('d');
+        moveOfJerry.add('s');
+        moveOfJerry.add('s');
+        moveOfJerry.add('s');
+        moveOfJerry.add('s');
+        moveOfJerry.add('s');
+        moveOfJerry.add('z');
+        moveOfJerry.add('z');
+        moveOfJerry.add('s');
+
+        // Character[] moveOfJerry = {'d','d','d','s','s','s','s','z','z','z','s'};
+
+        for (char i : moveOfJerry) {
+            switch (i) {
+                case 'd':
+                    x++;
+                    break;
+                case 'w':
+                    y--;
+                    break;
+                case 'a':
+                    x--;
+                    break;
+                case 's':
+                    y++;
+                    break;
+                case 'z':
+                    x--;
+                    y++;
+                    break;
+                case 'q':
+                    x--;
+                    y--;
+                    break;
+                case 'c':
+                    x++;
+                    y++;
+                    break;
+                case 'e':
+                    x++;
+                    y--;
+                    break;
+            }
+            positionOfJerry.add(new Point(x, y));
+        }
+    }
+
     public static void main(String[] args) {
-        Node node = new Node(null, 0,0,0);
-        BFS bfs = new BFS();
-        bfs.production(node);
-        node.printChild();
+        BFS bfs = new BFS(12,2,6,7,1);
+        bfs.bfs();
+
 
     }
+
 }
