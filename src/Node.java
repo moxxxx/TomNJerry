@@ -1,23 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Node {
+public class Node implements Comparable<Node> {
     int x;
     int y;
-    int depth;
+    int h;
+    int f;
+    int depth; // not only the depth but also the cost!
     Node parent;
     // ArrayList children;
     public List<Node> children;
+
+    public int compareTo(Node anthorNode) {
+        return this.f - anthorNode.f;
+    }
 
     public Node(Node p, int x, int y, int depth){
         parent = p;
         this.x = x;
         this.y = y;
         this.depth = depth;
-        children = new ArrayList<Node>();
+        h = 0;
+        f = 0;
+        children = new ArrayList<>();
     }
     public String toString() {
-        return String.format("Node at x: " + x +  ", y : " + y + ", at depth of " + depth);
+        return String.format("Node at x: " + x +  ", y : " + y + ", at depth of " + depth + " with f: " + f );
     }
     public void  printChild(){
         System.out.println("I have my children: ");
