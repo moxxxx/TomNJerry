@@ -49,7 +49,7 @@ public class Board {
         int absY = Math.abs(rat.y-y);
         if (absX > absY) return absX;
         return absY;
-    }
+    }// If Jerry is smart, he should use this to calculate a cost of step to eat cheese instead of calculating the distance of cheese
 
     private void printBoard(){
         for (int i = 0; i < boardSize; i++){
@@ -98,7 +98,6 @@ public class Board {
             randomNum = new Random().nextInt(boardSize*boardSize);
             set.add(randomNum);
         }
-        System.out.println(set);
         int x;
         int y;
         int i;
@@ -122,7 +121,6 @@ public class Board {
         Collections.sort(cheeseBag);
         positionOfJerry.add(jerry);
     }
-
 
     private void runJerry(){
         Point jerry = new Point(this.jerry.x, this.jerry.y);
@@ -199,10 +197,11 @@ public class Board {
         int depth = node.depth;
         int x1 = positionOfJerry.get(depth).x;
         int y1 = positionOfJerry.get(depth).y;
-        node.h = (int) (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)));
+        // node.h = (int) (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)) / Math.sqrt(5));
+        node.h = (int) distance(new Point(node.x, node.y), (new Point(x1, y1)));
         node.f = node.h + node.depth;
     }
-    /*
+
     public void hn3(Node node){
         int depth = depthOfJerry;
         int x1 = positionOfJerry.get(depth).x;
@@ -216,7 +215,6 @@ public class Board {
         node.f = node.h + node.depth;
     }
 
-     */
 
     public boolean setToVisit(Node node) {
         return visited.get(node.x).set(node.y, true);
@@ -298,18 +296,56 @@ public class Board {
                 current = current.parent;
             }
             path.add(current);
-            System.out.println("Tom catch Jerry" + i);
+            System.out.println("Tom catch Jerry, span: " + i);
             printPath(path);
         } else {
-            System.out.println("Jerry won");
+            System.out.println("Jerry won, span : " + i);
         }
     }
+    public void superDfs() {
+        Stack<Node> toVisit = new Stack<Node>();
+        Node root = new Node(null, tom.x, tom.y, 0);
+        Node current = root;
+        toVisit.add(root);
+        int i = 0;
+        while (!toVisit.isEmpty()) {
+            current = toVisit.pop();
+            if (current.depth >= depthOfJerry) { // jerry eats cheese
+            } else {
+                if (termination(current)) {
+                    // if catch!
+                    break;
+                } else {// not catch, expand
+                    production(current);// set its child
+                    for (Node child : current.children) {// append to its to Visited
+                        if (!isVisited(child)){
+                            toVisit.add(child);
+                        }
+                    }
+                }
+            }
+        }
+        if (termination(current)) {
+            Stack<Node> path = new Stack<Node>();
+            while (current.parent != null) {
+                path.add(current);
+                current = current.parent;
+            }
+            path.add(current);
+            System.out.println("Tom catch Jerry, span: " + i);
+            printPath(path);
+        } else {
+            System.out.println("Jerry won + span: " + i);
+        }
+    }
+
 
     public void dfs() {
         Stack<Node> toVisit = new Stack<Node>();
         Node root = new Node(null, tom.x, tom.y, 0);
         Node current = root;
         toVisit.add(root);
+        int count =0;
         while (!toVisit.isEmpty()) {
             current = toVisit.pop();
             // System.out.println(toVisit);
@@ -324,6 +360,7 @@ public class Board {
                     production(current);// set its child
                     for (Node child : current.children) {// append to its to Visited
                         if (!isVisited(child)) {
+                            count++;
                             toVisit.add(child);
                         }
                     }
@@ -337,10 +374,10 @@ public class Board {
                 current = current.parent;
             }
             path.add(current);
-            System.out.println("Tom catch Jerry");
+            System.out.println("Tom catch Jerry and span" + count);
             printPath(path);
         } else {
-            System.out.println("Jerry won");
+            System.out.println("Jerry won, span: " + count);
         }
     } // modify this
 
@@ -384,6 +421,9 @@ public class Board {
     }
 
     private boolean inCLose(List<List<List<Boolean>>> closed, Node node){
+        if (node.depth >= depthOfJerry){// error handling
+            return false;
+        }
         return closed.get(node.x).get(node.y).get(node.depth);
     }
     private boolean foundAtLast(Node n, int i){
@@ -391,7 +431,7 @@ public class Board {
     }
     public void aStar(int mode) {
         List<Node> open = new ArrayList<Node>();
-        List<List<List<Boolean>>> close = new ArrayList(boardSize);
+        List<List<List<Boolean>>> close = new ArrayList();
         initClose(close);
         Node root = new Node(null, tom.x, tom.y, 0);
         open.add(root);
@@ -418,7 +458,7 @@ public class Board {
                     switch (mode){
                         case 0: hn1(child);
                         case 1: hn2(child);
-                        //case 2: hn3(child);
+                        case 2: hn3(child);
                     }
                     hn1(child);// updated the the h and f
                     if (inOpen(open,child)){
@@ -433,7 +473,7 @@ public class Board {
                 Collections.sort(open);
             }
         }
-            System.out.println("jerry Won");
+            System.out.println("Jerry Won");
     }
 
     public void getJerryPosition(int x, int y) {
@@ -489,9 +529,19 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board board = new Board(12);
+        Board board = new Board(10);
+        System.out.println("------------Hn1-------------");
+        System.out.println();
+        board.aStar(1);
+        System.out.println("------------Hn2-------------");
+        System.out.println();
         board.aStar(0);
-        //board.bfs();
+        System.out.println("------------BFS-------------");
+        System.out.println();
+        board.bfs();
+        //System.out.println("------------DFS1-------------");
+        System.out.println();
+        //board.dfs();
 
     }
 
