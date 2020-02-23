@@ -529,7 +529,7 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board board = new Board(10);
+        Board board = new Board(30);
         System.out.println("------------Hn1-------------");
         System.out.println();
         board.aStar(1);
