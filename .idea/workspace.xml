@@ -2,22 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e102cee6-dc0d-4d19-9d25-7a10ebaefc32" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Cheese.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TomNJerry.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TomNJerry.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TomNJerry/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TomNJerry/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TomNJerry/META-INF/TomNJerry.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TomNJerry/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TomNJerry/Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -80,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1582326593032</updated>
-      <workItem from="1582326597389" duration="16168000" />
+      <workItem from="1582326597389" duration="32563000" />
     </task>
     <servers />
   </component>
@@ -88,22 +88,26 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582418347522">
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1582439068008">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582418347522" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1582418347521">
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582439068008" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1582491158911">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582418347521" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1582418347521">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582491158911" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1582491158911">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582418347521" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1582418347522">
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582491158911" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1582491158910">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582418347522" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582491158910" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1582491158911">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582491158911" />
     <state x="376" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1582326598420">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -118,8 +122,29 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Board.java</url>
-          <line>48</line>
+          <line>173</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Board.java</url>
+          <line>202</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Board.java</url>
+          <line>93</line>
+          <properties class="Board" method="initPosition">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Board.java</url>
+          <line>12</line>
+          <properties class="Board" method="&lt;init&gt;">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

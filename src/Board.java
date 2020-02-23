@@ -5,12 +5,14 @@ public class Board {
     ArrayList<ArrayList<Boolean>> visited;
     int boardSize;
     Point tom;
-    int depthOfJerry = 9;
+    Point jerry;
+    List<Cheese> cheeseBag;
+    int depthOfJerry;
     ArrayList<Point> positionOfJerry = new ArrayList<Point>();
 
     public Board() {
-        boardSize = 8;
-        tom = new Point(0, 0);
+        boardSize = 10;
+        cheeseBag = new ArrayList<Cheese>(3);
         visited = new ArrayList<ArrayList<Boolean>>(boardSize);
         for (int i = 0; i < boardSize; i++) {
             ArrayList<Boolean> array = new ArrayList<>(boardSize);
@@ -19,21 +21,140 @@ public class Board {
             }
             visited.add(array);
         }
-        this.getJerryPosition(1, 1);
+        initPosition();
+        runJerry();
+        printBoard();
+        depthOfJerry = positionOfJerry.size()-1;
     }
 
-    public Board(int size, int tomX, int tomY, int jerX, int jerY) {
-        this.boardSize = size;
-        this.tom = new Point(tomX, tomY);
-        visited = new ArrayList<ArrayList<Boolean>>(size);
-        for (int i = 0; i < size; i++) {
-            ArrayList<Boolean> array = new ArrayList<>(size);
-            for (int j = 0; j < size; j++) {
+    public Board(int size) {
+        boardSize = size;
+        cheeseBag = new ArrayList<Cheese>(3);
+        visited = new ArrayList<ArrayList<Boolean>>(boardSize);
+        for (int i = 0; i < boardSize; i++) {
+            ArrayList<Boolean> array = new ArrayList<>(boardSize);
+            for (int j = 0; j < boardSize; j++) {
                 array.add(false);
             }
             visited.add(array);
         }
-        this.getJerryPosition(jerX, jerY);
+        initPosition();
+        runJerry();
+        printBoard();
+        depthOfJerry = positionOfJerry.size()-1;
+    }
+
+    private int cost(Point rat, int x, int y){
+        int absX = Math.abs(rat.x - x);
+        int absY = Math.abs(rat.y-y);
+        if (absX > absY) return absX;
+        return absY;
+    }
+
+    private void printBoard(){
+        for (int i = 0; i < boardSize; i++){
+            if (i > 9) {
+                System.out.print(i + ":");
+            } else {
+                System.out.print(i + " :");
+            }
+            for (int j =0; j < boardSize; j++){
+                if (tom.x == j && tom.y == i) {
+                    System.out.print("T |");
+                } else if (jerry.x == j && jerry.y == i) {
+                    System.out.print("J |");
+                }
+                else {
+                    boolean f = false;
+                    for (Cheese ch : cheeseBag){
+                        if (ch.x == j && ch.y == i){
+                            System.out.print("C_|");
+                            f = true;
+                            break;
+                        }
+                    }
+                    if (!f) {
+                        for (Point path : positionOfJerry) {// if in path
+                            if (path.x == j && path.y == i) {
+                                System.out.print("P |");
+                                f = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!f)
+                        System.out.print("__|");
+                }
+            }
+            System.out.print('\n');
+        }
+    }
+
+    private void initPosition(){
+        int randomNum;
+        int numberOfCheese = 3;
+        TreeSet<Integer> set = new TreeSet<>(); // first two are cheese, 3rd is rat, 4th is cat
+        while (set.size() < 2 + numberOfCheese){
+            randomNum = new Random().nextInt(boardSize*boardSize);
+            set.add(randomNum);
+        }
+        System.out.println(set);
+        int x;
+        int y;
+        int i;
+        i = set.pollFirst();
+        x = i / boardSize;// x
+        y = i % boardSize; // y
+        tom = new Point(x,y);
+
+        i = set.pollFirst();
+        x = i / boardSize;// x
+        y = i % boardSize; // y
+        jerry = new Point(x,y);
+
+        while (!set.isEmpty()){
+            i = set.pollFirst();
+            x = i / boardSize;// x
+            y = i % boardSize; // y
+            Point p = new Point (x, y);
+            cheeseBag.add(new Cheese(x, y, distance(p,jerry)));
+        }
+        Collections.sort(cheeseBag);
+        positionOfJerry.add(jerry);
+    }
+
+
+    private void runJerry(){
+        Point jerry = new Point(this.jerry.x, this.jerry.y);
+        List<Cheese> tempCheese = new ArrayList<Cheese>();
+        tempCheese.addAll(cheeseBag);
+        while (!tempCheese.isEmpty()){
+            Cheese cheese = tempCheese.remove(0);
+            while (jerry.x != cheese.x || jerry.y != cheese.y ){// not eaten
+                if (jerry.x > cheese.x){
+                    jerry.x--;
+                }
+                if (jerry.x < cheese.x){
+                    jerry.x++;
+                }
+                if (jerry.y > cheese.y){
+                    jerry.y--;
+                }
+                if (jerry.y < cheese.y){
+                    jerry.y++;
+                }
+                Point c = new Point(jerry.x, jerry.y);
+                positionOfJerry.add(c);
+            }
+            for (Cheese remainCheese : tempCheese){// update new distance
+                remainCheese.distance = distance(new Point(remainCheese.x, remainCheese.y), jerry);
+            }
+            Collections.sort(tempCheese);
+        }
+    }
+
+    private double distance(Point a, Point b){
+        return Math.sqrt((a.y - b.y) * (a.y - b.y) + (a.x - b.x) * (a.x - b.x));
     }
 
     public boolean isVisited(Node node) {
@@ -73,13 +194,30 @@ public class Board {
         node.f = node.h + node.depth;
     }
 
-    /*
+
     public void hn2(Node node){
-        int
+        int depth = node.depth;
+        int x1 = positionOfJerry.get(depth).x;
+        int y1 = positionOfJerry.get(depth).y;
+        node.h = (int) (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)));
+        node.f = node.h + node.depth;
+    }
+    /*
+    public void hn3(Node node){
+        int depth = depthOfJerry;
+        int x1 = positionOfJerry.get(depth).x;
+        int y1 = positionOfJerry.get(depth).y;
+        double h1 = (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)) / Math.sqrt(5));
+        depth = node.depth;
+        x1 = positionOfJerry.get(depth).x;
+        y1 = positionOfJerry.get(depth).y;
+        double h2 =(Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)) / Math.sqrt(5));
+        node.h = (int) (h1 + h2)/2;
+        node.f = node.h + node.depth;
     }
 
-
      */
+
     public boolean setToVisit(Node node) {
         return visited.get(node.x).set(node.y, true);
     }
@@ -93,7 +231,6 @@ public class Board {
     }
 
     public void printBoard(Node current) {
-        // current.printChild();
         for (int i = 0; i < boardSize; i++) {
             if (i > 9) {
                 System.out.print(i + ":");
@@ -105,8 +242,23 @@ public class Board {
                     System.out.print("T |");
                 } else if (positionOfJerry.get(current.depth).x == j && positionOfJerry.get(current.depth).y == i) {
                     System.out.print("J |");
+                    for (Cheese cheese : cheeseBag){
+                        if (cheese.x == j && cheese.y == i){
+                            cheeseBag.remove(cheese);
+                            break;
+                        }
+                    }
                 } else {
-                    System.out.print("__|");
+                    boolean f = false;
+                    for (Cheese cheese : cheeseBag){
+                        if (cheese.x == j && cheese.y == i){
+                            System.out.print("C |");
+                            f = true;
+                            break;
+                        }
+                    }
+                    if (!f)
+                        System.out.print("__|");
                 }
             }
             System.out.print('\n');
@@ -190,7 +342,7 @@ public class Board {
         } else {
             System.out.println("Jerry won");
         }
-    }
+    } // modify this
 
     private void initClose(List close) {
         for (int i = 0; i < boardSize; i++) {
@@ -237,7 +389,7 @@ public class Board {
     private boolean foundAtLast(Node n, int i){
         return (n.x == positionOfJerry.get(i).x && n.y == positionOfJerry.get(i).y && n.depth ==i);
     }
-    public void aStar() {
+    public void aStar(int mode) {
         List<Node> open = new ArrayList<Node>();
         List<List<List<Boolean>>> close = new ArrayList(boardSize);
         initClose(close);
@@ -262,6 +414,11 @@ public class Board {
                         System.out.println("Tom catch Jerry");
                         printPath(path);
                         return;
+                    }
+                    switch (mode){
+                        case 0: hn1(child);
+                        case 1: hn2(child);
+                        //case 2: hn3(child);
                     }
                     hn1(child);// updated the the h and f
                     if (inOpen(open,child)){
@@ -332,15 +489,10 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board board = new Board(10, 0, 0, 7, 1);
-        //Board board = new Board(12,2,6,7,1);
-        board.aStar();
-        /*
-        List open = new ArrayList<Node>();
-        open.add(new Node(null, 1,1,2));
-        open.add(new Node(null, 1,2,4));
-        System.out.println(board.openContains(open, new Node(null,2,1,2)));
-         */
+        Board board = new Board(12);
+        board.aStar(0);
+        //board.bfs();
+
     }
 
 }
