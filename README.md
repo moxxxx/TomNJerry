@@ -16,3 +16,5 @@ GUI is still developing in JS & React.
 How to run:
 complie each Java file and run Board.main()
 
+The console will print out the shorest path to chase Jerry solved by BFS and A*, as well as the cost of each algorithm.
+There are two heuristic functions used in game.
