@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e102cee6-dc0d-4d19-9d25-7a10ebaefc32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TomNJerry/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TomNJerry/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +78,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1582326593032</updated>
-      <workItem from="1582326597389" duration="36405000" />
+      <workItem from="1582326597389" duration="36510000" />
+      <workItem from="1582656227328" duration="3379000" />
     </task>
     <servers />
   </component>
@@ -91,26 +91,26 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582439068008" />
-    <state width="1398" height="213" key="GridCell.Tab.0.bottom" timestamp="1582495239164">
+    <state width="1398" height="634" key="GridCell.Tab.0.bottom" timestamp="1582671407104">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="213" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582495239164" />
-    <state width="1398" height="213" key="GridCell.Tab.0.center" timestamp="1582495239163">
+    <state width="1398" height="634" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1582671407104" />
+    <state width="1398" height="634" key="GridCell.Tab.0.center" timestamp="1582671407103">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="213" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582495239163" />
-    <state width="1398" height="213" key="GridCell.Tab.0.left" timestamp="1582495239162">
+    <state width="1398" height="634" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1582671407103" />
+    <state width="1398" height="634" key="GridCell.Tab.0.left" timestamp="1582671407102">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="213" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582495239162" />
-    <state width="1398" height="213" key="GridCell.Tab.0.right" timestamp="1582495239163">
+    <state width="1398" height="634" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1582671407102" />
+    <state width="1398" height="634" key="GridCell.Tab.0.right" timestamp="1582671407103">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="213" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582495239163" />
-    <state x="376" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1582326598420">
+    <state width="1398" height="634" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1582671407103" />
+    <state x="376" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1582656227361">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="376" y="284" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1582326598420" />
+    <state x="376" y="284" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1582656227361" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1582400222622">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -131,7 +131,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Board.java</url>
-          <line>426</line>
+          <line>425</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -141,7 +141,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Board.java</url>
-          <line>343</line>
+          <line>342</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">

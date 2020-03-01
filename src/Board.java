@@ -197,7 +197,6 @@ public class Board {
         int depth = node.depth;
         int x1 = positionOfJerry.get(depth).x;
         int y1 = positionOfJerry.get(depth).y;
-        // node.h = (int) (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)) / Math.sqrt(5));
         node.h = (int) distance(new Point(node.x, node.y), (new Point(x1, y1)));
         node.f = node.h + node.depth;
     }
@@ -206,7 +205,7 @@ public class Board {
         int depth = depthOfJerry;
         int x1 = positionOfJerry.get(depth).x;
         int y1 = positionOfJerry.get(depth).y;
-        double h1 = (Math.sqrt((node.y - y1) * (node.y - y1) + (node.x - x1) * (node.x - x1)) / Math.sqrt(5));
+        double h1 = distance(new Point(node.x, node.y), (new Point(x1, y1)));
         depth = node.depth;
         x1 = positionOfJerry.get(depth).x;
         y1 = positionOfJerry.get(depth).y;
@@ -296,7 +295,7 @@ public class Board {
                 current = current.parent;
             }
             path.add(current);
-            System.out.println("Tom catch Jerry, span: " + i);
+            System.out.println("Tom catch Jerry, span: " + i + ", with " + path.size()+ "steps");
             printPath(path);
         } else {
             System.out.println("Jerry won, span : " + i);
@@ -374,7 +373,7 @@ public class Board {
                 current = current.parent;
             }
             path.add(current);
-            System.out.println("Tom catch Jerry and span" + count);
+            System.out.println("Tom catch Jerry and span" + count + ", with" +path.size() +" step");
             printPath(path);
         } else {
             System.out.println("Jerry won, span: " + count);
@@ -445,13 +444,12 @@ public class Board {
                 production(q); // generate child
                 for (Node child : q.children) {
                     if (termination(child)){
-                        System.out.println("Tom Win! " + i);
                         Stack<Node> path = new Stack<Node>();
                         while (child != null) {
                             path.add(child);
                             child = child.parent;
                         }
-                        System.out.println("Tom catch Jerry");
+                        System.out.println("Tom Win! with span" + i + "and in " + path.size() +" steps");
                         printPath(path);
                         return;
                     }
@@ -529,19 +527,19 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board board = new Board(30);
-        System.out.println("------------Hn1-------------");
-        System.out.println();
-        board.aStar(1);
+        Board board = new Board(10);
+        //System.out.println("------------Hn1-------------");
+        //System.out.println();
+        //board.aStar(1);
         System.out.println("------------Hn2-------------");
         System.out.println();
         board.aStar(0);
         System.out.println("------------BFS-------------");
         System.out.println();
         board.bfs();
-        //System.out.println("------------DFS1-------------");
+        System.out.println("------------DFS1-------------");
         System.out.println();
-        //board.dfs();
+        board.dfs();
 
     }
 
