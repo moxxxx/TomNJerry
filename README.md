@@ -1,6 +1,6 @@
 # TomNJerry
 AI Tom chasing greedy Jerry
-AI Tom use: DFS BFS A* search
+AI Tom use: DFS BFS A* search to chase Jerry
 
 About this game:
 
